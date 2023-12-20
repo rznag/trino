@@ -435,10 +435,13 @@ public class ElasticsearchClient
 
         return doRequest(path, body -> {
             try {
-                JsonNode mappings = OBJECT_MAPPER.readTree(body)
-                        .elements().next()
-                        .get("mappings");
-
+                
+                JsonNode elements = OBJECT_MAPPER.readTree(body).elements();
+                if (!elements.hasNext()) {
+                    return new IndexMetadata(new IndexMetadata.ObjectType(ImmutableList.of()));
+                }
+                
+                JsonNode mappings = .next().get("mappings");
                 if (!mappings.elements().hasNext()) {
                     return new IndexMetadata(new IndexMetadata.ObjectType(ImmutableList.of()));
                 }
