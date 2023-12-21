@@ -435,7 +435,7 @@ public class ElasticsearchClient
 
         return doRequest(path, body -> {
             try {
-                JsonNode treeElements = OBJECT_MAPPER.readTree(body).elements();
+                Iterator treeElements = OBJECT_MAPPER.readTree(body).elements();
                 if (!treeElements.hasNext()) {
                     return new IndexMetadata(new IndexMetadata.ObjectType(ImmutableList.of()));
                 }
